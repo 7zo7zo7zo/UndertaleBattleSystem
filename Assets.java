@@ -1,7 +1,4 @@
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Random;
 
 public class Assets {
     private Game game;
@@ -11,40 +8,64 @@ public class Assets {
     private int HP = 20;
 
     private DialogueBox dialogueBox;
-    private final Soul soul;
+    private Soul soul;
 
-    private Random random;
-    private ArrayList<Entity> attacks;
+    private int seqNum;
+    private Sequence currSeq;
+
+    private Sequence1 seq1;
+    private Sequence2 seq2;
 
     public Assets(Game game) {
         this.game = game;
 
-
-        counter = new Counter();
+        counter = new Counter(4000);
         dialogueBox = new DialogueBox(game, 150, 150, 200, 200, 14);
         soul = new Soul(game, 242, 242, 16, 16, 4, "/resources/textures/Soul.png");
-        random = new Random();
-        attacks = new ArrayList<Entity>();
+
+        seq1 = new Sequence1(game);
+        seq2 = new Sequence2(game);
+
+        seqNum = 1;
+        currSeq = seq1;
     }
 
     public void tick() {
+        if(seqNum == 1) {
+            currSeq = seq1;
+
+            if(counter.tally > 500) {
+                if(currSeq.done) {
+                    currSeq.spawn = true;
+                    currSeq.done = false;
+                    counter.reset();
+                    seqNum = 2;
+                }
+                else {
+                    currSeq.spawn = false;
+                }
+            }
+
+        }
+        else if(seqNum == 2) {
+            currSeq = seq2;
+
+            if(counter.tally > 2000) {
+                if(currSeq.done) {
+                    currSeq.spawn = true;
+                    currSeq.done = false;
+                    counter.reset();
+                    seqNum = 1;
+                }
+                else {
+                    currSeq.spawn = false;
+                }
+            }
+        }
+
         soul.tick();
+        currSeq.tick();
 
-        if (counter.check(20)) {
-            attacks.add(new Attack1(game, random.nextInt(600) - 50, -50, 13, 14, 3, "/resources/textures/Fireball.png"));
-            attacks.add(new Attack1(game, random.nextInt(600) - 50, -50, 12, 12, 3, "/resources/textures/FriendlinessPellet.png"));
-        }
-
-        for (int i = 0; i < attacks.size(); i++) {
-            attacks.get(i).tick();
-            if (soul.collides(attacks.get(i))) {
-                HP -= 1;
-            }
-            if (attacks.get(i).getX() < -50 || attacks.get(i).getX() > 550 || attacks.get(i).getY() < -50 || attacks.get(i).getY() > 550) {
-                attacks.set(i, null);
-            }
-        }
-        attacks.removeAll(Collections.singleton(null));
         counter.tick();
     }
 
@@ -52,9 +73,7 @@ public class Assets {
         dialogueBox.render(g2);
         soul.render(g2);
 
-        for (int i = 0; i < attacks.size(); i++) {
-            attacks.get(i).render(g2);
-        }
+        currSeq.render(g2);
 
         g2.setColor(Color.YELLOW);
         g2.drawString("HP: " + HP, 230, 400);
@@ -70,5 +89,12 @@ public class Assets {
 
     public Soul getSoul() {
         return soul;
+    }
+
+    public int getHP() {
+        return HP;
+    }
+    public void setHP(int HP) {
+        this.HP = HP;
     }
 }

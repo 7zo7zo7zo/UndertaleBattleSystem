@@ -6,6 +6,7 @@ public class Soul extends ImageEntity {
     }
 
     public void tick() {
+        super.tick();
         if (game.getInput().up) {
             y -= speed;
             hitbox.setLocation((int) x + offset, (int) y + offset);

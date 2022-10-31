@@ -1,8 +1,6 @@
 import java.awt.*;
 
-public class Entity {
-
-    protected Game game;
+public class Entity extends Logic {
 
     protected float x;
     protected float y;
@@ -18,8 +16,10 @@ public class Entity {
 
     protected Rectangle hitbox;
 
+    protected int count;
+
     public Entity(Game game, float x, float y, int width, int height, int offset) {
-        this.game = game;
+        super(game);
         this.x = x;
         this.y = y;
         this.width = width;
@@ -46,10 +46,7 @@ public class Entity {
     }
 
     public boolean collides(Entity e) {
-        if (hitbox.intersects(e.hitbox)) {
-            return true;
-        }
-        return false;
+        return hitbox.intersects(e.hitbox);
     }
 
     public void setAngle(float xTarget, float yTarget) {

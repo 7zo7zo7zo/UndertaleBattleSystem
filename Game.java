@@ -1,7 +1,4 @@
-import java.awt.Canvas;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.image.BufferStrategy;
 
 import javax.swing.JFrame;
@@ -97,6 +94,7 @@ public class Game implements Runnable {
 
         // Draw
 
+        if(System.getProperty("os.name").equals("Linux")) Toolkit.getDefaultToolkit().sync();
         assets.render(g2);
 
         // End

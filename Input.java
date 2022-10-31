@@ -8,7 +8,7 @@ public class Input implements KeyListener {
 	public boolean up, down, left, right;
 
 	public Input() {
-		keys = new boolean[256];
+		keys = new boolean[526];
 	}
 
 	@Override
