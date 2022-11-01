@@ -1,7 +1,5 @@
 public class Attack2 extends AnimatedImageEntity {
 
-    int count;
-
     public Attack2(Game game, float x, float y, int width, int height, int offset, String path, float angle) {
         super(game, x, y, width, height, offset, path);
         this.angle = angle;
