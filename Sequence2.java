@@ -27,7 +27,7 @@ public class Sequence2 extends Sequence {
 
         angle += 0.1;
         if (game.getAssets().getCounter().check(10) && spawn) {
-            attacks.add(new Attack2(game, 242, 243, 13, 14, 3, "/resources/textures/Fireball.png", angle));
+            attacks.add(new Attack2(game, 243, 243, 13, 14, 3, "/resources/textures/Fireball.png", angle));
         }
     }
 }
