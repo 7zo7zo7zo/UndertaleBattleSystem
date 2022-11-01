@@ -19,7 +19,7 @@ public class Assets {
     public Assets(Game game) {
         this.game = game;
 
-        counter = new Counter(4000);
+        counter = new Counter(2000);
         dialogueBox = new DialogueBox(game, 150, 150, 200, 200, 14);
         soul = new Soul(game, 242, 242, 16, 16, 4, "/resources/textures/Soul.png");
 
@@ -50,7 +50,7 @@ public class Assets {
         else if(seqNum == 2) {
             currSeq = seq2;
 
-            if(counter.tally > 2000) {
+            if(counter.tally > 1000) {
                 if(currSeq.done) {
                     currSeq.spawn = true;
                     currSeq.done = false;
